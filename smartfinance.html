@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Smart Finance | Personal Investing & Compound Interest Tool</title>
+  <meta name="description" content="Free personal finance & investing tool. Calculate compound interest, future value, and plan your investments. Fully responsive and SEO optimized.">
+  <meta name="keywords" content="personal finance, investing, compound interest, future value, financial calculator, investment tool">
+  <meta name="author" content="Smart Finance">
+  <meta name="robots" content="index, follow">
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:title" content="Smart Finance | Personal Investing & Compound Interest Tool">
+  <meta property="og:description" content="Free personal finance & investing tool. Calculate compound interest and plan your investments easily.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com/finance-tool">
+  <meta property="og:image" content="https://example.com/og-finance.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Google AdSense (replace ca-pub-XXXXXX with your Publisher ID) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- Global Reset & Variables ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    :root {
+      --primary: #0f2b4b;
+      --primary-light: #1e4a76;
+      --accent: #00b4d8;
+      --accent-light: #90e0ef;
+      --bg-light: #f8faff;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-light: #e2e8f0;
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    body {
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 0 16px 40px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 10px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .header-nav a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header-nav a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    @media (min-width: 640px) {
+      .site-header {
+        flex-wrap: nowrap;
+      }
+      .tagline {
+        width: auto;
+        margin-top: 0;
+      }
+      .header-nav {
+        width: auto;
+        margin-top: 0;
+      }
+    }
+
+    /* ---------- Ad Spaces ---------- */
+    .ad-container {
+      margin: 30px 0;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--border-light);
+      padding: 12px;
+      text-align: center;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ad-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .ad-container ins {
+      display: block;
+      width: 100%;
+    }
+
+    .ad-top { min-height: 90px; }
+    .ad-mid { min-height: 250px; }
+    .ad-bottom { min-height: 90px; }
+
+    /* ---------- Hero / Title ---------- */
+    .hero {
+      text-align: center;
+      margin: 30px 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 12px auto 0;
+    }
+
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+    }
+
+    /* ---------- Tool Card ---------- */
+    .tool-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 28px 24px;
+      margin: 30px 0;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .tool-card:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    }
+
+    .tool-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .tool-header i {
+      font-size: 2rem;
+      color: var(--accent);
+      background: #e6f7ff;
+      padding: 12px;
+      border-radius: 14px;
+    }
+
+    .tool-header h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.01em;
+    }
+
+    /* Form Grid */
+    .finance-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .finance-form {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .input-group label i {
+      color: var(--accent);
+      font-size: 0.95rem;
+      width: 18px;
+    }
+
+    .input-group input,
+    .input-group select {
+      padding: 14px 16px;
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      background: #f9fcff;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      color: var(--text-dark);
+      width: 100%;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.15);
+      background: #ffffff;
+    }
+
+    .input-group small {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Button */
+    .btn-calculate {
+      grid-column: 1 / -1;
+      padding: 16px 28px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 14px -6px rgba(15, 43, 75, 0.3);
+      margin-top: 8px;
+    }
+
+    .btn-calculate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 20px -8px rgba(15, 43, 75, 0.4);
+    }
+
+    .btn-calculate:active {
+      transform: translateY(1px);
+    }
+
+    /* Result Panel */
+    .result-panel {
+      margin-top: 28px;
+      background: #f0f9ff;
+      border-radius: var(--radius-sm);
+      padding: 22px;
+      border-left: 6px solid var(--accent);
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .result-panel.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 480px) {
+      .result-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .result-item {
+      background: white;
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-item .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .result-item .value {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    .result-item .value small {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .highlight {
+      color: var(--accent) !important;
+    }
+
+    /* Disclaimer / Info */
+    .disclaimer {
+      margin-top: 24px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    /* ---------- SEO Content Section ---------- */
+    .info-section {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      margin: 40px 0;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+    }
+
+    .info-section h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .info-section h3 {
+      font-size: 1.3rem;
+      color: var(--primary-light);
+      margin: 24px 0 10px;
+      font-weight: 600;
+    }
+
+    .info-section p {
+      color: #334155;
+      margin-bottom: 16px;
+    }
+
+    .info-section ul {
+      padding-left: 24px;
+      margin-bottom: 20px;
+      color: #334155;
+    }
+
+    .info-section li {
+      margin-bottom: 8px;
+    }
+
+    .info-section .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Hyperlinks in content */
+    .info-section a,
+    .site-footer a,
+    .hero a,
+    .disclaimer a {
+      color: var(--primary-light);
+      text-decoration: underline;
+      text-decoration-color: var(--accent-light);
+      text-underline-offset: 3px;
+      font-weight: 500;
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+
+    .info-section a:hover,
+    .site-footer a:hover,
+    .hero a:hover,
+    .disclaimer a:hover {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    /* External link icon */
+    .ext-link::after {
+      content: " \f08e";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      font-size: 0.75em;
+      margin-left: 4px;
+      color: var(--accent);
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      text-align: center;
+      padding: 30px 0 10px;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 20px;
+    }
+
+    .site-footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      margin: 12px 0;
+    }
+
+    .site-footer .footer-links a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .site-footer .footer-links a:hover {
+      text-decoration: underline;
+      color: var(--accent);
+    }
+
+    /* ---------- Utility ---------- */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ========== HEADER ========== -->
+    <header class="site-header">
+      <a href="#" class="logo" aria-label="SmartFinance Home">
+        <i class="fas fa-chart-line"></i>
+        <span>SmartFinance</span>
+      </a>
+      <div class="tagline">
+        <i class="fas fa-shield-alt" style="color: var(--accent); margin-right: 6px;"></i>
+        Plan. Invest. Grow.
+      </div>
+      <nav class="header-nav" aria-label="Main Navigation">
+        <a href="#tool"><i class="fas fa-calculator"></i> Calculator</a>
+        <a href="#learn"><i class="fas fa-book-open"></i> Learn</a>
+        <a href="#footer"><i class="fas fa-envelope"></i> Contact</a>
+      </nav>
+    </header>
+
+    <!-- ========== TOP AD SPACE ========== -->
+    <div class="ad-container ad-top" aria-label="Advertisement">
+      <div class="ad-label">Advertisement</div>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+      <h1>Personal Finance & Investing Tool</h1>
+      <p>Estimate your future wealth with compound interest. Adjust contributions, rate, and time to see how your money grows. Learn more in our <a href="#learn">investment guide</a> below.</p>
+    </section>
+
+    <!-- ========== TOOL CARD ========== -->
+    <section class="tool-card" id="tool" aria-labelledby="toolHeading">
+      <div class="tool-header">
+        <i class="fas fa-calculator"></i>
+        <h2 id="toolHeading">Compound Interest Calculator</h2>
+      </div>
+
+      <form class="finance-form" id="financeForm">
+        <div class="input-group">
+          <label for="initial"><i class="fas fa-dollar-sign"></i> Initial Investment ($)</label>
+          <input type="number" id="initial" name="initial" min="0" step="100" value="5000" required>
+          <small>Starting amount</small>
+        </div>
+
+        <div class="input-group">
+          <label for="monthly"><i class="fas fa-calendar-plus"></i> Monthly Contribution ($)</label>
+          <input type="number" id="monthly" name="monthly" min="0" step="50" value="500" required>
+          <small>Added each month</small>
+        </div>
+
+        <div class="input-group">
+          <label for="rate"><i class="fas fa-percent"></i> Annual Interest Rate (%)</label>
+          <input type="number" id="rate" name="rate" min="0" max="40" step="0.1" value="7.5" required>
+          <small>Expected annual return</small>
+        </div>
+
+        <div class="input-group">
+          <label for="years"><i class="fas fa-clock"></i> Time Period (Years)</label>
+          <input type="number" id="years" name="years" min="1" max="70" step="1" value="20" required>
+          <small>Number of years to grow</small>
+        </div>
+
+        <div class="input-group">
+          <label for="compound"><i class="fas fa-sync-alt"></i> Compounding Frequency</label>
+          <select id="compound" name="compound">
+            <option value="12" selected>Monthly</option>
+            <option value="4">Quarterly</option>
+            <option value="2">Semi-Annually</option>
+            <option value="1">Annually</option>
+          </select>
+          <small>How often interest is compounded</small>
+        </div>
+
+        <div class="input-group">
+          <label for="currency"><i class="fas fa-coins"></i> Currency Symbol</label>
+          <select id="currency" name="currency">
+            <option value="$" selected>USD ($)</option>
+            <option value="€">EUR (€)</option>
+            <option value="£">GBP (£)</option>
+            <option value="¥">JPY (¥)</option>
+            <option value="₹">INR (₹)</option>
+          </select>
+          <small>Display currency</small>
+        </div>
+
+        <button type="button" class="btn-calculate" id="calcBtn">
+          <i class="fas fa-chart-pie"></i> Calculate Future Value
+        </button>
+      </form>
+
+      <!-- Result Panel -->
+      <div class="result-panel" id="resultPanel">
+        <div class="result-grid">
+          <div class="result-item">
+            <div class="label">Future Value</div>
+            <div class="value" id="futureValue">$0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Total Contributions</div>
+            <div class="value" id="totalContrib">$0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Interest Earned</div>
+            <div class="value highlight" id="interestEarned">$0</div>
+          </div>
+          <div class="result-item">
+            <div class="label">Effective Growth</div>
+            <div class="value" id="growthMultiple">0x</div>
+          </div>
+        </div>
+        <p style="margin-top: 18px; font-size: 0.85rem; color: var(--text-muted);">
+          <i class="fas fa-info-circle"></i> Results are estimates. Actual returns may vary. See our <a href="#learn">investing tips</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== MID AD SPACE ========== -->
+    <div class="ad-container ad-mid" aria-label="Advertisement">
+      <div class="ad-label">Advertisement</div>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="0987654321"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- ========== SEO CONTENT SECTION ========== -->
+    <section class="info-section" id="learn">
+      <h2>Why Use Our Personal Finance & Investing Tool?</h2>
+      <p>Our <strong>compound interest calculator</strong> is designed for both beginner and seasoned investors. Whether you're planning for retirement, saving for a home, or building an emergency fund, understanding how your money grows over time is essential.</p>
+
+      <p>For a deeper dive into investing basics, check out these trusted resources: <a href="https://www.investopedia.com/" target="_blank" rel="noopener noreferrer" class="ext-link">Investopedia</a> and the <a href="https://www.sec.gov/investor" target="_blank" rel="noopener noreferrer" class="ext-link">SEC Investor Education</a>.</p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li><strong>Dynamic inputs</strong> – Adjust initial investment, monthly contributions, interest rate, and time horizon.</li>
+        <li><strong>Compounding options</strong> – Choose monthly, quarterly, semi-annual, or annual compounding.</li>
+        <li><strong>Multi-currency support</strong> – View results in USD, EUR, GBP, JPY, or INR.</li>
+        <li><strong>Instant visual results</strong> – See future value, total contributions, interest earned, and growth multiple.</li>
+        <li><strong>Fully responsive</strong> – Works seamlessly on mobile, tablet, and desktop.</li>
+      </ul>
+
+      <h3>How Compound Interest Works</h3>
+      <p>Compound interest is the interest on a loan or deposit calculated based on both the initial principal and the accumulated interest from previous periods. It's often called "interest on interest" and can significantly boost your investments over the long term. The formula used is:</p>
+      <p style="background: #f1f5f9; padding: 12px 18px; border-radius: 10px; font-family: monospace; font-size: 1rem;">
+        A = P(1 + r/n)^(nt) + PMT × [((1 + r/n)^(nt) - 1) / (r/n)]
+      </p>
+      <p>Where <span class="highlight">A</span> = future value, <span class="highlight">P</span> = initial principal, <span class="highlight">PMT</span> = monthly contribution, <span class="highlight">r</span> = annual interest rate, <span class="highlight">n</span> = compounding frequency per year, <span class="highlight">t</span> = time in years. Learn more about the <a href="https://en.wikipedia.org/wiki/Compound_interest" target="_blank" rel="noopener noreferrer" class="ext-link">mathematics of compound interest</a>.</p>
+
+      <h3>Tips for Smart Investing</h3>
+      <ul>
+        <li><strong>Start early</strong> – Time is your biggest ally thanks to compounding.</li>
+        <li><strong>Contribute regularly</strong> – Even small monthly amounts add up significantly.</li>
+        <li><strong>Reinvest dividends</strong> – Automatically reinvesting dividends accelerates growth.</li>
+        <li><strong>Keep fees low</strong> – High fees can eat into your returns. Compare brokers with <a href="https://www.nerdwallet.com/" target="_blank" rel="noopener noreferrer" class="ext-link">NerdWallet</a>.</li>
+        <li><strong>Diversify</strong> – Spread investments across asset classes to manage risk.</li>
+      </ul>
+
+      <h3>Recommended Reading</h3>
+      <ul>
+        <li><a href="https://www.bogleheads.org/" target="_blank" rel="noopener noreferrer" class="ext-link">Bogleheads Community</a> – Index investing philosophy.</li>
+        <li><a href="https://www.mrmoneymustache.com/" target="_blank" rel="noopener noreferrer" class="ext-link">Mr. Money Mustache</a> – Financial independence blog.</li>
+        <li><a href="https://www.reddit.com/r/personalfinance/" target="_blank" rel="noopener noreferrer" class="ext-link">r/personalfinance</a> – Community discussions.</li>
+      </ul>
+    </section>
+
+    <!-- ========== BOTTOM AD SPACE ========== -->
+    <div class="ad-container ad-bottom" aria-label="Advertisement">
+      <div class="ad-label">Advertisement</div>
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1122334455"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer" id="footer">
+      <p>&copy; 2025 <a href="#" aria-label="SmartFinance Home">SmartFinance</a>. All rights reserved. This tool is for educational purposes only.</p>
+      
+      <div class="footer-links">
+        <a href="#"><i class="fas fa-lock"></i> Privacy Policy</a>
+        <a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contact Us</a>
+        <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+      </div>
+
+      <p style="margin-top: 16px; font-size: 0.85rem;">
+        Follow us: 
+        <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a> &nbsp;
+        <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a> &nbsp;
+        <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- ========== JAVASCRIPT ========== -->
+  <script>
+    (function() {
+      // DOM elements
+      const form = document.getElementById('financeForm');
+      const calcBtn = document.getElementById('calcBtn');
+      const resultPanel = document.getElementById('resultPanel');
+
+      // Result display elements
+      const futureValueEl = document.getElementById('futureValue');
+      const totalContribEl = document.getElementById('totalContrib');
+      const interestEarnedEl = document.getElementById('interestEarned');
+      const growthMultipleEl = document.getElementById('growthMultiple');
+
+      // Input elements
+      const initialInput = document.getElementById('initial');
+      const monthlyInput = document.getElementById('monthly');
+      const rateInput = document.getElementById('rate');
+      const yearsInput = document.getElementById('years');
+      const compoundSelect = document.getElementById('compound');
+      const currencySelect = document.getElementById('currency');
+
+      // Helper: format number as currency
+      function formatCurrency(value, symbol = '$') {
+        const rounded = Math.round(value * 100) / 100;
+        return symbol + rounded.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      // Core calculation: compound interest with monthly contributions
+      function calculateCompoundInterest(principal, monthlyContrib, annualRate, years, compoundsPerYear) {
+        const t = years;
+        const n = compoundsPerYear;
+        const r = annualRate / 100;
+
+        if (r === 0) {
+          const totalContrib = principal + monthlyContrib * 12 * t;
+          return {
+            futureValue: totalContrib,
+            totalContributions: totalContrib,
+            interestEarned: 0
+          };
+        }
+
+        const compoundFactor = Math.pow(1 + r / n, n * t);
+        const futureValuePrincipal = principal * compoundFactor;
+
+        const monthlyRate = Math.pow(1 + r / n, n / 12) - 1;
+        const totalMonths = t * 12;
+        
+        let futureValueContributions;
+        if (monthlyRate === 0) {
+          futureValueContributions = monthlyContrib * totalMonths;
+        } else {
+          futureValueContributions = monthlyContrib * (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+        }
+
+        const futureValue = futureValuePrincipal + futureValueContributions;
+        const totalContributions = principal + monthlyContrib * totalMonths;
+        const interestEarned = futureValue - totalContributions;
+
+        return {
+          futureValue,
+          totalContributions,
+          interestEarned
+        };
+      }
+
+      // Update UI with results
+      function updateResults() {
+        const principal = parseFloat(initialInput.value) || 0;
+        const monthly = parseFloat(monthlyInput.value) || 0;
+        const annualRate = parseFloat(rateInput.value) || 0;
+        const years = parseFloat(yearsInput.value) || 1;
+        const compoundsPerYear = parseInt(compoundSelect.value) || 12;
+        const currencySymbol = currencySelect.value || '$';
+
+        if (principal < 0 || monthly < 0 || annualRate < 0 || years < 1) {
+          alert('Please enter positive values. Time period must be at least 1 year.');
+          return;
+        }
+
+        const result = calculateCompoundInterest(principal, monthly, annualRate, years, compoundsPerYear);
+
+        futureValueEl.textContent = formatCurrency(result.futureValue, currencySymbol);
+        totalContribEl.textContent = formatCurrency(result.totalContributions, currencySymbol);
+        interestEarnedEl.textContent = formatCurrency(result.interestEarned, currencySymbol);
+        
+        let multiple = 0;
+        if (result.totalContributions > 0) {
+          multiple = result.futureValue / result.totalContributions;
+        }
+        growthMultipleEl.textContent = multiple.toFixed(2) + 'x';
+
+        resultPanel.classList.add('show');
+      }
+
+      // Attach event listeners
+      calcBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        updateResults();
+      });
+
+      form.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'SELECT' && e.target.tagName !== 'BUTTON') {
+          e.preventDefault();
+          updateResults();
+        }
+      });
+
+      window.addEventListener('load', function() {
+        setTimeout(updateResults, 100);
+      });
+
+      const inputsToWatch = [initialInput, monthlyInput, rateInput, yearsInput, compoundSelect, currencySelect];
+      inputsToWatch.forEach(input => {
+        input.addEventListener('change', function() {
+          if (resultPanel.classList.contains('show')) {
+            updateResults();
+          }
+        });
+      });
+      
+    })();
+  </script>
+
+  <!-- 
+    AdSense code note: 
+    Replace ca-pub-XXXXXXXXXXXXXXXX with your Publisher ID.
+    Replace data-ad-slot values with your Ad Unit IDs.
+  -->
+</body>
+</html>
